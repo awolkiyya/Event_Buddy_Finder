@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "43625745033",
+    "project_id": "flutterfirebase-36df7",
+    "storage_bucket": "flutterfirebase-36df7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43625745033:android:6d5a2cecd7c3bf60c3d458",
+        "android_client_info": {
+          "package_name": "com.dream.chatty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43625745033-48k0qmt0ja70d2hlco58rkuq7crk7ra1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dream.chatty",
+            "certificate_hash": "a65ce973401e3d5e49486f3018efef34b1f15d0d"
+          }
+        },
+        {
+          "client_id": "43625745033-n3fuigt6q3k7nt1nekel8vd1qtg1ioqr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dream.chatty",
+            "certificate_hash": "7d855b9e51ac64d9251a034151e1e1c095c81a58"
+          }
+        },
+        {
+          "client_id": "43625745033-jinmqrprh80p3517cg50uvhof86hbd0d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtbRgsQCY52pEoXCRYRc7XjWbXHG8AOtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43625745033-jinmqrprh80p3517cg50uvhof86hbd0d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "43625745033-2cakl3ucf1elcnrq0oihiik51pqsapne.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.frontapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43625745033:android:f04796ef4322d098c3d458",
+        "android_client_info": {
+          "package_name": "com.example.event_buddy_finder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43625745033-jinmqrprh80p3517cg50uvhof86hbd0d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtbRgsQCY52pEoXCRYRc7XjWbXHG8AOtQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43625745033-jinmqrprh80p3517cg50uvhof86hbd0d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "43625745033-2cakl3ucf1elcnrq0oihiik51pqsapne.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.frontapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

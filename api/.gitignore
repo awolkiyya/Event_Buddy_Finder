@@ -1,0 +1,19 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Env files
+.env
+.env.local
+firebase-service-account.json
+
+# Build
+dist/
+build/
+
+# OS/system files
+.DS_Store
+Thumbs.db
