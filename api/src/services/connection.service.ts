@@ -1,7 +1,7 @@
 // src/services/connection.service.ts
 import { Types } from 'mongoose';
-import ConnectionRequest, { IConnectionRequest } from '../models/connectionRequest';
-import Match, { IMatch } from '../models/match';
+import ConnectionRequest, { IConnectionRequest } from '../models/ConnectionRequest';
+import Match, { IMatch } from '../models/Match';
 import Event from '../models/Event'; // To validate eventId
 import User from '../models/User'; // To get sender's name and recipient's deviceToken/status
 import { sendPushNotification } from './chat.service'; // Import the push notification service
@@ -149,8 +149,3 @@ export const getUserMatches = async (userId: Types.ObjectId): Promise<IMatch[]> 
   }
 };
 
-// You might also add functions for:
-// - acceptConnectionRequest (if you want explicit accept/reject buttons)
-// - rejectConnectionRequest
-// - deleteConnectionRequest
-// - unmatchUsers
