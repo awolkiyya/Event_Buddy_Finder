@@ -1,4 +1,3 @@
-// src/routes/event.ts
 import { Router } from 'express';
 import {
   getEventsList,
@@ -14,7 +13,7 @@ const router = Router();
 
 // --- Middleware applied to ALL routes in this router ---
 // First, authenticate the user using your custom JWT
-// router.use(authenticateCustomJwt);
+router.use(authenticateCustomJwt);
 // Then, if authenticated, update their last online status
 router.use(updateLastOnlineMiddleware);
 // --- End Middleware ---

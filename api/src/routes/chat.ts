@@ -1,4 +1,3 @@
-// src/routes/chat.ts
 import { Router } from 'express';
 import { getChatHistory } from '../controllers/chatController';
 import { authenticateCustomJwt } from '../middlewares/authenticateCustomJwt';

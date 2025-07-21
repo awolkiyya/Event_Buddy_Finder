@@ -1,4 +1,3 @@
-// src/routes/connection.ts
 import { Router } from 'express';
 import {
   sendConnectionRequestController,
