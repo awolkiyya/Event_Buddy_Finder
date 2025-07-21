@@ -1,14 +1,13 @@
-import dotenv from 'dotenv';
+import { config } from './config/globalConfig';
 import http from 'http';
 import app from './app';
 import { setupSocket } from './sockets';
 import connectDB from './config/db';
 
-dotenv.config();
 
-const PORT: number = parseInt(process.env.PORT || '3000', 10);
+const PORT: number = config.port;
 
-if (!process.env.MONGO_URI) {
+if (!config.mongoUri) {
   console.error('❌ MONGO_URI is not defined in environment variables');
   process.exit(1);
 }
