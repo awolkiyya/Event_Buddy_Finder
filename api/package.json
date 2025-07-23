@@ -7,9 +7,8 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "seed:events": "ts-node scripts/seedEvents.ts",
-    "seed:users": "ts-node scripts/seedUsers.ts" 
-
+    "seed:events": "ts-node src/scripts/seedEvents.ts",
+    "seed:users": "ts-node src/scripts/seedUsers.ts" 
   },
   "author": "eng awol abdulbaasit",
   "license": "ISC",
