@@ -1,4 +1,4 @@
-import 'package:event_buddy_finder/futures/notification/data/repository/notification_repository.dart';
+import 'package:event_buddy_finder/commens/notification/data/repository/notification_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'notification_event.dart';
 import 'notification_state.dart';

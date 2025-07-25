@@ -1,7 +1,7 @@
 // src/controllers/eventController.ts
 import { Request, Response } from 'express';
 import { Types } from 'mongoose'; // Import Types for ObjectId validation
-import { getEvents, joinEvent, getEventAttendees } from '../services/event.service'; // Import all necessary service functions
+import { getEvents, joinEvent, getEventAttendees, findUsersByIds } from '../services/event.service'; // Import all necessary service functions
 
 /**
  * @route GET /api/events
@@ -129,3 +129,38 @@ export const getEventAttendeesController = async (req: Request, res: Response) =
   }
 };
 
+export const getAttendeesByIdsController = async (req: Request, res: Response) => {
+  try {
+    const { attendeeIds } = req.body;
+
+    // Validate input
+    if (!Array.isArray(attendeeIds) || attendeeIds.length === 0) {
+      return res.status(400).json({
+        message: 'attendeeIds array is required and cannot be empty.',
+      });
+    }
+
+    // Call the service (validation handled there)
+    const attendees = await findUsersByIds(attendeeIds);
+
+    // Explicit mapping (optional since service already formats it, but safe)
+    const formattedAttendees = attendees.map(user => ({
+      userId: user.id,
+      userName: user.name,
+      userPhotoUrl: user.photoURL || null,
+      userStatus: user.status || null,
+      lastSeen: user.lastOnline || null,
+      location: user.location || null,
+    }));
+
+    return res.status(200).json({
+      message: 'Attendees fetched successfully.',
+      attendees: formattedAttendees,
+    });
+  } catch (error) {
+    console.error('Error in getAttendeesByIdsController:', error);
+    return res.status(500).json({
+      message: 'Server error while fetching attendees.',
+    });
+  }
+};

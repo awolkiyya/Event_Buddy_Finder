@@ -1,8 +1,8 @@
 // seedUsers.ts
 import mongoose from 'mongoose';
 
-import User, { IUser } from '../src/models/User'; // Adjust path to your User model
-import connectDB from '../src/config/db';
+import User, { IUser } from "../models/User"; // Adjust path to your User model
+import connectDB from '../config/db';
 
 
 const seedUsers = async () => {

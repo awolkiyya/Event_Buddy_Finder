@@ -1,8 +1,9 @@
 // src/controllers/connectionController.ts
 import { Request, Response } from 'express';
 import { Types } from 'mongoose'; // For ObjectId validation
-import { sendConnectionRequest, getPendingRequests, getUserMatches } from '../services/connection.service';
+import { sendConnectionRequest, getPendingRequests } from '../services/connection.service';
 import { z } from 'zod'; // For input validation
+import Match from '../models/Match';
 
 // Zod schema for sending a connection request
 const sendConnectionRequestSchema = z.object({
@@ -106,6 +107,42 @@ export const getPendingRequestsController = async (req: Request, res: Response) 
  * @description Get all matches for the authenticated user.
  * @access Protected (requires custom JWT)
  */
+
+// Helper function to get matches with other user info populated
+const getUserMatchesWithDetails = async (userObjectId: Types.ObjectId) => {
+  const matches = await Match.find({
+    $or: [{ user1: userObjectId }, { user2: userObjectId }],
+  })
+    .populate('user1', 'name email photoURL')
+    .populate('user2', 'name email photoURL')
+    .lean(); // returns plain JS objects, not Mongoose documents
+  
+  return matches.map(match => {
+    const user1 = match.user1 as any; // now it's a plain object with user fields
+    const user2 = match.user2 as any;
+  
+    const isUser1 = user1._id.toString() === userObjectId.toString();
+    const otherUser = isUser1 ? user2 : user1;
+  
+    return {
+      matchId: match._id,
+      eventId: match.eventId,
+      matchDate: match.matchDate,
+      otherUser: {
+        id: otherUser._id,
+        name: otherUser.name,
+        email: otherUser.email,
+        photoURL: otherUser.photoURL,
+      },
+    };
+  });
+  
+};
+/**
+ * @route GET /api/connections/matches
+ * @description Get all matches with user details for the authenticated user.
+ * @access Protected (requires custom JWT)
+ */
 export const getUserMatchesController = async (req: Request, res: Response) => {
   try {
     const userId = req.customUser?.userId; // Authenticated user's MongoDB _id
@@ -115,15 +152,16 @@ export const getUserMatchesController = async (req: Request, res: Response) => {
     }
 
     const userObjectId = new Types.ObjectId(userId);
-    const matches = await getUserMatches(userObjectId);
 
-    if (matches.length === 0) {
+    const matchesWithDetails = await getUserMatchesWithDetails(userObjectId);
+
+    if (matchesWithDetails.length === 0) {
       return res.status(204).send(); // No content
     }
 
     return res.status(200).json({
       message: 'User matches fetched successfully.',
-      matches: matches,
+      matches: matchesWithDetails,
     });
   } catch (error) {
     console.error('Error fetching user matches:', error);

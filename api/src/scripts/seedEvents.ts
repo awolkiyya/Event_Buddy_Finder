@@ -1,33 +1,32 @@
 // seedEvents.ts
-import mongoose, { Types } from 'mongoose'; // Import Types here
-import Event, { IEvent } from '../src/models/Event'; // Adjust path to your Event model
-import User from '../src/models/User'; // Adjust path to your User model (needed for attendees)
-import connectDB from '../src/config/db';
+import mongoose, { Types } from 'mongoose';
+import connectDB from '../config/db';
+import User from '../models/User';
+import Event, { IEvent } from '../models/Event';  // <-- Import Event model here
 
 const seedEvents = async () => {
   try {
-    // Connect to MongoDB
-    connectDB ();
+    // Connect to MongoDB (await to ensure connection before continuing)
+    await connectDB();
     console.log('MongoDB connected for seeding.');
 
-    // --- Optional: Fetch some existing user IDs for attendees ---
-    // If you want actual users as attendees, uncomment and use this:
-    const users = await User.find({}, '_id').limit(2).exec(); // Fetch up to 2 user _ids
-    // Explicitly cast user._id to Types.ObjectId
+    // Fetch some existing user IDs for attendees
+    const users = await User.find({}, '_id').limit(2).exec();
     const userIds = users.map(user => user._id as Types.ObjectId);
     console.log(`Found ${userIds.length} user(s) to assign as attendees.`);
-    // -----------------------------------------------------------
 
-    // Define your mock events data
+    // Mock events with latitude and longitude added
     const mockEvents: Partial<IEvent>[] = [
       {
         title: "Adama Tech Summit 2025",
         description: "An annual gathering of tech innovators, developers, and entrepreneurs in Adama. Featuring keynote speakers, workshops, and networking opportunities.",
         location: "Adama Science and Technology University Conference Hall",
-        time: new Date('2025-09-15T09:00:00Z'), // UTC time
+        time: new Date('2025-09-15T09:00:00Z'),
         tags: ["tech", "conference", "innovation", "networking"],
-        attendees: userIds.slice(0, 1), // Assign first found user as attendee
-        imageUrl: "https://placehold.co/600x400/FF5733/FFFFFF?text=Tech+Summit", // Mock image URL
+        attendees: userIds.slice(0, 1),
+        imageUrl: "https://placehold.co/600x400/FF5733/FFFFFF?text=Tech+Summit",
+        latitude: 8.55,    // Example latitude for Adama
+        longitude: 39.27,  // Example longitude for Adama
       },
       {
         title: "Oromia Cultural Dance Night",
@@ -35,8 +34,10 @@ const seedEvents = async () => {
         location: "Adama Cultural Center",
         time: new Date('2025-09-22T19:30:00Z'),
         tags: ["culture", "dance", "music", "tradition"],
-        attendees: userIds.slice(0, 2), // Assign first two users as attendees
-        imageUrl: "https://placehold.co/600x400/33FF57/000000?text=Cultural+Dance", // Mock image URL
+        attendees: userIds.slice(0, 2),
+        imageUrl: "https://placehold.co/600x400/33FF57/000000?text=Cultural+Dance",
+        latitude: 8.55,
+        longitude: 39.27,
       },
       {
         title: "Lake Bishoftu Photography Tour",
@@ -44,8 +45,10 @@ const seedEvents = async () => {
         location: "Lake Bishoftu Shore",
         time: new Date('2025-10-01T07:00:00Z'),
         tags: ["photography", "nature", "tour", "outdoor"],
-        attendees: [], // No attendees for this mock
-        imageUrl: "https://placehold.co/600x400/3366FF/FFFFFF?text=Photography+Tour", // Mock image URL
+        attendees: [],
+        imageUrl: "https://placehold.co/600x400/3366FF/FFFFFF?text=Photography+Tour",
+        latitude: 8.05,    // Approximate coords for Bishoftu
+        longitude: 38.99,
       },
       {
         title: "Adama Startup Pitch Competition",
@@ -54,7 +57,9 @@ const seedEvents = async () => {
         time: new Date('2025-10-10T14:00:00Z'),
         tags: ["startup", "business", "pitch", "entrepreneurship"],
         attendees: userIds.slice(0, 1),
-        imageUrl: "https://placehold.co/600x400/FF33CC/FFFFFF?text=Startup+Pitch", // Mock image URL
+        imageUrl: "https://placehold.co/600x400/FF33CC/FFFFFF?text=Startup+Pitch",
+        latitude: 8.55,
+        longitude: 39.27,
       },
       {
         title: "Ethiopian Coffee Ceremony Workshop",
@@ -63,7 +68,9 @@ const seedEvents = async () => {
         time: new Date('2025-10-25T11:00:00Z'),
         tags: ["culture", "coffee", "workshop", "food"],
         attendees: [],
-        imageUrl: "https://placehold.co/600x400/FFFF33/000000?text=Coffee+Ceremony", // Mock image URL
+        imageUrl: "https://placehold.co/600x400/FFFF33/000000?text=Coffee+Ceremony",
+        latitude: 8.55,
+        longitude: 39.27,
       },
       {
         title: "Adama Marathon 2025",
@@ -72,7 +79,9 @@ const seedEvents = async () => {
         time: new Date('2025-11-05T06:00:00Z'),
         tags: ["sports", "marathon", "running", "fitness"],
         attendees: userIds.slice(0, 2),
-        imageUrl: "https://placehold.co/600x400/33FFFF/000000?text=Adama+Marathon", // Mock image URL
+        imageUrl: "https://placehold.co/600x400/33FFFF/000000?text=Adama+Marathon",
+        latitude: 8.55,
+        longitude: 39.27,
       },
       {
         title: "Youth Leadership Conference",
@@ -81,22 +90,23 @@ const seedEvents = async () => {
         time: new Date('2025-11-12T09:00:00Z'),
         tags: ["youth", "leadership", "education", "development"],
         attendees: [],
-        imageUrl: "https://placehold.co/600x400/CC33FF/FFFFFF?text=Leadership+Conf", // Mock image URL
+        imageUrl: "https://placehold.co/600x400/CC33FF/FFFFFF?text=Leadership+Conf",
+        latitude: 8.55,
+        longitude: 39.27,
       },
     ];
 
-    // Clear existing events to prevent duplicates on re-run (optional, but good for testing)
+    // Clear existing events to prevent duplicates
     await Event.deleteMany({});
     console.log('Existing events cleared.');
 
-    // Insert the mock events
+    // Insert mock events
     await Event.insertMany(mockEvents);
     console.log(`${mockEvents.length} mock events inserted successfully!`);
 
   } catch (error) {
     console.error('Error seeding events:', error);
   } finally {
-    // Disconnect from MongoDB
     await mongoose.disconnect();
     console.log('MongoDB disconnected.');
   }

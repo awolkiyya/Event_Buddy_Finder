@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import {
   getEventsList,
-  joinEventController, // Import the new join event controller
-  getEventAttendeesController // Import the new get attendees controller
+  joinEventController,
+  getEventAttendeesController,
+  getAttendeesByIdsController // Add if you want to expose this endpoint too
 } from '../controllers/eventController';
 
 // Import middleware
@@ -11,32 +12,36 @@ import { authenticateCustomJwt } from '../middlewares/authenticateCustomJwt';
 
 const router = Router();
 
-// --- Middleware applied to ALL routes in this router ---
-// First, authenticate the user using your custom JWT
+// Apply authentication and update last online status middleware to all routes
 router.use(authenticateCustomJwt);
-// Then, if authenticated, update their last online status
 router.use(updateLastOnlineMiddleware);
-// --- End Middleware ---
 
 /**
  * @route GET /api/events/allEvents
- * @description Route to get a paginated list of all events.
+ * @description Get a paginated list of all events.
  * @access Protected (requires custom JWT)
  */
 router.get('/allEvents', getEventsList);
 
 /**
  * @route POST /api/events/:id/join
- * @description Route for an authenticated user to join a specific event.
+ * @description Authenticated user joins a specific event.
  * @access Protected (requires custom JWT)
  */
 router.post('/:id/join', joinEventController);
 
 /**
  * @route GET /api/events/:id/attendees
- * @description Route to get a list of attendees for a specific event, excluding the current user.
+ * @description Get attendees of a specific event excluding current user.
  * @access Protected (requires custom JWT)
  */
 router.get('/:id/attendees', getEventAttendeesController);
+
+/**
+ * @route POST /api/events/attendeesByIds
+ * @description Get user details for given attendee IDs.
+ * @access Protected (requires custom JWT)
+ */
+router.post('/attendeesByIds', getAttendeesByIdsController);
 
 export default router;

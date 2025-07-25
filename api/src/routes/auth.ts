@@ -15,7 +15,7 @@ const router = Router();
  * This is called by the client AFTER they successfully authenticate with Firebase (e.g., Google Sign-In, Email/Password).
  * @access Public (but verifies Firebase token internally)
  */
-router.post('/login',[AuthenticateFirebaseToken],authController.getProfile);
+router.post('/login',[AuthenticateFirebaseToken],authController.login);
 
 /**
  * @route GET /api/auth/profile
@@ -35,6 +35,6 @@ router.get('/profile', [AuthenticateFirebaseToken], authController.getProfile);
 router.post('/profile', [AuthenticateFirebaseToken], authController.upsertProfile);
 router.get('/search',[authenticateCustomJwt,updateLastOnlineMiddleware], usersController.searchUsersController);
 
-
+router.post('/register', [AuthenticateFirebaseToken], authController.registerUser);
 
 export default router;

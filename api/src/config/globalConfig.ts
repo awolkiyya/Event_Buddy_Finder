@@ -14,7 +14,8 @@ export const config = {
   port: parseInt(process.env.PORT || '3000'),
   mongoUri: getEnvVar('MONGO_URI'),
   jwtSecret: getEnvVar('JWT_SECRET'),
-  firebaseApiKey: getEnvVar('FIREBASE_API_KEY', false), // Optional
+  firebaseApiKey: getEnvVar('FIREBASE_API_KEY', false), // optional
   socketPath: process.env.SOCKET_PATH || '/socket.io',
-  clientUrl: getEnvVar('CLIENT_URL'), // Added CLIENT_URL
+  clientUrl: getEnvVar('CLIENT_URL'),
+  firebaseKeyPath: getEnvVar('FIREBASE_KEY_PATH'), // ✅ used here
 };

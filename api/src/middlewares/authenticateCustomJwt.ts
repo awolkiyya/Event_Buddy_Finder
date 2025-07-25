@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'; // Import jsonwebtoken
-import { Router, Request, Response, NextFunction } from 'express';
+import {Request, Response, NextFunction } from 'express';
 import { config } from '../config/globalConfig';
 
 /**

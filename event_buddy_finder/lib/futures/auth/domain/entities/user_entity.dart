@@ -1,11 +1,17 @@
 class UserEntity {
-  final String id;
-  final String email;
-  final String? name;
+  final String userId;
+  final String userName;
+  final String? userPhotoUrl;
+  final String? userStatus;
+  final DateTime? lastSeen;
+  final String? location; // ⬅️ New field for city, region, etc.
 
-  const UserEntity({
-    required this.id,
-    required this.email,
-    this.name,
+  UserEntity({
+    required this.userId,
+    required this.userName,
+    this.userPhotoUrl,
+    this.userStatus,
+    this.lastSeen,
+    this.location,
   });
 }

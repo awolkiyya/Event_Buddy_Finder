@@ -148,4 +148,40 @@ export const getUserMatches = async (userId: Types.ObjectId): Promise<IMatch[]> 
     throw new Error('Could not fetch user matches.');
   }
 };
+/**
+ * Fetch connections involving currentUserId and any user in otherUserIds
+ * @param currentUserId - current user's ObjectId or string
+ * @param otherUserIds - array of user ObjectIds or strings to check connection with
+ * @returns Promise resolving to array of IConnection documents
+ */
+export const getUserConnections = async (
+  currentUserId: string,
+  otherUserIds: string[]
+): Promise<IConnectionRequest[]> => {
+  try {
+    if (!Types.ObjectId.isValid(currentUserId)) {
+      throw new Error('Invalid current user ID.');
+    }
+
+    const validIds = otherUserIds
+      .filter(id => Types.ObjectId.isValid(id))
+      .map(id => new Types.ObjectId(id));
+
+    if (validIds.length === 0) return [];
+
+    const currentUserObjId = new Types.ObjectId(currentUserId);
+
+    const connections = await ConnectionRequest.find({
+      $or: [
+        { userA: currentUserObjId, userB: { $in: validIds } },
+        { userB: currentUserObjId, userA: { $in: validIds } },
+      ],
+    }).exec();
+
+    return connections;
+  } catch (error) {
+    console.error('Error in connection.service.ts getUserConnections:', error);
+    throw new Error('Could not fetch user connections.');
+  }
+};
 

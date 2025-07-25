@@ -66,6 +66,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "43625745033-v0du0mhvk5pgvtm31mth389s37icm92l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.event_buddy_finder",
+            "certificate_hash": "a65ce973401e3d5e49486f3018efef34b1f15d0d"
+          }
+        },
+        {
           "client_id": "43625745033-jinmqrprh80p3517cg50uvhof86hbd0d.apps.googleusercontent.com",
           "client_type": 3
         }

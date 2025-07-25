@@ -1,17 +1,26 @@
 import * as admin from "firebase-admin";
 import * as path from "path";
-import * as dotenv from "dotenv";
-dotenv.config();
+import * as fs from "fs";
+import { config } from "./globalConfig";
 
-if (!process.env.FIREBASE_KEY_PATH) {
-  throw new Error("FIREBASE_KEY_PATH is not defined in .env");
+try {
+  const serviceAccountPath = path.resolve(config.firebaseKeyPath);
+
+  if (!fs.existsSync(serviceAccountPath)) {
+    throw new Error(`Firebase service account file not found at path: ${serviceAccountPath}`);
+  }
+
+  const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf8"));
+
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+
+  console.log("✅ Firebase Admin SDK initialized successfully.");
+
+} catch (error) {
+  console.error("❌ Failed to initialize Firebase Admin SDK:", error);
+  // Optionally, process.exit(1); to stop the server if critical
 }
-
-
-const serviceAccountPath = path.resolve(process.env.FIREBASE_KEY_PATH as string);
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccountPath),
-});
 
 export default admin;

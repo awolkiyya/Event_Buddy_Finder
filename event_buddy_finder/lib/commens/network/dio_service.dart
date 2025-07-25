@@ -92,9 +92,10 @@ class DioService {
     return dio.get(path, queryParameters: queryParameters);
   }
 
-  Future<Response> post(String path, {dynamic data}) {
-    return dio.post(path, data: data);
-  }
+ Future<Response> post(String path, {dynamic data, Options? options}) {
+  return dio.post(path, data: data, options: options);
+}
+
 
   Future<Response> put(String path, {dynamic data}) {
     return dio.put(path, data: data);

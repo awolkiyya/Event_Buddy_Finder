@@ -5,7 +5,7 @@ import { updateUserStatus } from '../services/user.service'; // Import the servi
 
 export const updateLastOnlineMiddleware = async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ) => {
   try {
